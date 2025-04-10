@@ -8,9 +8,9 @@ int main(){
     InitWindow(windowDimensions[0], windowDimensions[1], "Knight Battle");
     Texture2D backgroundMap = LoadTexture("nature_tileset/OpenWorldMap.png");
     Vector2 backgroundPos{0.0, 0.0};
+    const float mapScale{4.0f};
 
-    Character knight;
-    knight.setScreenPos(windowDimensions[0], windowDimensions[1]);
+    Character knight(windowDimensions[0], windowDimensions[1]);
 
     SetTargetFPS(60);
 
@@ -22,9 +22,16 @@ int main(){
         backgroundPos = Vector2Scale(knight.getWorldPos(), -1.f);
 
         // Draw the background
-        DrawTextureEx(backgroundMap, backgroundPos, 0.0, 4.0, WHITE);
+        DrawTextureEx(backgroundMap, backgroundPos, 0.0, mapScale, WHITE);
 
         knight.tick(GetFrameTime());
+        if (knight.getWorldPos().x < 0.f || 
+            knight.getWorldPos().y < 0.f || 
+            knight.getWorldPos().x + windowDimensions[0] > backgroundMap.width * mapScale ||
+            knight.getWorldPos().y + windowDimensions[1] > backgroundMap.height * mapScale)
+        {
+            knight.undoMovement();
+        }
 
         EndDrawing();
     }
