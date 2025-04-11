@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "Character.hpp"
+#include "Prop.hpp"
 
 int main(){
     // Create new window for game
@@ -11,6 +12,8 @@ int main(){
     const float mapScale{4.0f};
 
     Character knight(windowDimensions[0], windowDimensions[1]);
+
+    Prop rock{ Vector2{0.f, 0.f}, LoadTexture("nature_tileset/Rock.png") };
 
     SetTargetFPS(60);
 
@@ -23,6 +26,8 @@ int main(){
 
         // Draw the background
         DrawTextureEx(backgroundMap, backgroundPos, 0.0, mapScale, WHITE);
+
+        rock.render(knight.getWorldPos());
 
         knight.tick(GetFrameTime());
         if (knight.getWorldPos().x < 0.f || 
