@@ -24,4 +24,5 @@ class Character{
         Vector2 getWorldPos() { return worldPos; }
         void tick(float DeltaTime);
         void undoMovement();
+        Rectangle getCollisionRec();
 };
