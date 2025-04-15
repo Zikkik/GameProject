@@ -2,6 +2,7 @@
 #include "raymath.h"
 #include "Character.hpp"
 #include "Prop.hpp"
+#include "Enemy.hpp"
 
 int main(){
     // Create new window for game
@@ -13,9 +14,17 @@ int main(){
 
     Character knight(windowDimensions[0], windowDimensions[1]);
 
+    // Create props
     Prop props[2] {
         Prop{ Vector2{600.f, 300.f}, LoadTexture("nature_tileset/Rock.png") },
         Prop{ Vector2{400.f, 500.f}, LoadTexture("nature_tileset/Log.png") },
+    };
+
+    // Create enemy
+    Enemy goblin{
+        Vector2{},
+        LoadTexture("characters/goblin_idle_spritesheet.png"),
+        LoadTexture("characters/goblin_run_spritesheet.png")
     };
 
     SetTargetFPS(60);
@@ -46,6 +55,8 @@ int main(){
         for (auto prop : props)
             if (CheckCollisionRecs(prop.getCollisionRec(knight.getWorldPos()), knight.getCollisionRec()))
                 knight.undoMovement();
+
+        goblin.tick(GetFrameTime());
 
         EndDrawing();
     }
