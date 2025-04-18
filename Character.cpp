@@ -33,3 +33,5 @@ void Character::tick(float DeltaTime){
     } else
         texture = idle;
 }
+
+Vector2 Character::getScreenPos() {return screenPos;}
