@@ -3,6 +3,7 @@
 #include "Character.hpp"
 #include "Prop.hpp"
 #include "Enemy.hpp"
+#include <string>
 
 int main(){
     // Create new window for game
@@ -43,6 +44,16 @@ int main(){
         // Draw the props
         for (auto prop : props)
             prop.render(knight.getWorldPos());
+
+        if(!knight.getAlive()){
+            DrawText("Game Over!", 55.f, 45.f, 40, RED);
+            EndDrawing();
+            continue;
+        } else {
+            std::string knightHealth = "Health: ";
+            knightHealth.append(std::to_string(knight.getHealth()), 0, 5);
+            DrawText(knightHealth.c_str(), 55.f, 45.f, 40, RED);
+        }
 
         knight.tick(GetFrameTime());
         if (knight.getWorldPos().x < 0.f || 
