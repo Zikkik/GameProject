@@ -11,10 +11,14 @@ class Character : public BaseCharacter {
         Texture2D weapon{LoadTexture("characters/weapon_sword.png")};
         Rectangle weaponCollisionRec{};
         float  rotation{};
+        float health{100.f};
     public:
         Character(int winWidth, int winHeight);
         virtual void tick(float DeltaTime) override;
         virtual Vector2 getScreenPos() override;
+        Rectangle getWaponCollisionRec() { return weaponCollisionRec; }
+        float getHealth() const { return health; }
+        void takeDamage(float damage);
 };
 
 #endif

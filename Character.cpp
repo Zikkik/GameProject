@@ -19,6 +19,7 @@ Vector2 Character::getScreenPos(){
 
 void Character::tick(float DeltaTime){
     // Movement
+    if(!getAlive()) return;
     if(IsKeyDown(KEY_A)) velocity.x -= 1.0;
     if(IsKeyDown(KEY_D)) velocity.x += 1.0;
     if(IsKeyDown(KEY_W)) velocity.y -= 1.0;
@@ -29,7 +30,6 @@ void Character::tick(float DeltaTime){
     Vector2 origin{};
     Vector2 offset{};
     if (rightLeft > 0.f){
-        rotation = 35.f;
         origin = {0.f, weapon.height * scale};
         offset = {35.f, 55.f};
         weaponCollisionRec = {
@@ -38,9 +38,9 @@ void Character::tick(float DeltaTime){
             weapon.width * scale,
             weapon.height * scale
         };
+        rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? 35.f : 0.f;
     }
     else {
-        rotation = -35.f;
         origin = {weapon.width * scale, weapon.height * scale};
         offset = {25.f, 55.f};
         weaponCollisionRec = {
@@ -49,6 +49,7 @@ void Character::tick(float DeltaTime){
             weapon.width * scale,
             weapon.height * scale
         };
+        rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? -35.f : 0.f;
     }
 
     // Draw the sword
@@ -63,4 +64,11 @@ void Character::tick(float DeltaTime){
         weaponCollisionRec.height,
         RED
     );
+}
+
+
+void Character::takeDamage(float damage){
+    health -= damage;
+    if (health <= 0.f)
+        setAlive(false);
 }
